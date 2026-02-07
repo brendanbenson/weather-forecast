@@ -17,6 +17,9 @@ class ForecastsController < ApplicationController
   end
 
   def show
+    zip_code = params[:zip_code_id].to_s
+    forecast_service = ForecastService.new(zip_code)
+    @forecast = forecast_service.forecast
   end
 
   private

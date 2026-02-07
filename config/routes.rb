@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :forecasts, only: [:new, :create]
 
-  resources :zip_codes, only: [] do
+  resources :zip_codes, only: [], constraints: { id: /\d{5}/ } do
     resource :forecast
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

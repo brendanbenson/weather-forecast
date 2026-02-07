@@ -1,4 +1,5 @@
 class GeocodingService
+  # @param [String] address The address to be geocoded
   def initialize(address)
     @address = address
   end
