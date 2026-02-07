@@ -1,0 +1,9 @@
+<%= form_with(model: address_form, url: forecasts_path) do |form| %>
+  <% if address_form.errors.include?(:address) %>
+    <div class="field_error"><%= address_form.errors.full_messages_for(:address).first %></div>
+  <% end %>
+  <div class="field">
+    <%= form.text_field :address, placeholder: "Enter an address" %>
+    <%= form.submit "Get Forecast" %>
+  </div>
+<% end %>

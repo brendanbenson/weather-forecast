@@ -1,0 +1,29 @@
+input[type="text"] {
+    border: 1px solid #DDDDDD;
+    padding: 0.5rem;
+    min-width: 200px;
+}
+
+input[type="submit"] {
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+    cursor: pointer;
+    border: 1px solid #DDDDDD;
+    background-color: #FFFFFF;
+}
+
+input[type="submit"]:hover {
+    border: 1px solid #333333;
+}
+
+.field_error {
+    color: red;
+}
+
+.field_with_errors {
+    display: inline-block;
+}
+
+.field_with_errors input {
+    border: 1px solid red;
+}
