@@ -25,7 +25,7 @@ class ForecastsController < ApplicationController
   end
 
   def show
-    @forecast = FetchForecast.new.fetch_by_postal_code(postal_code: params[:id].to_s)
+    @forecast = FetchForecast.new.fetch_by_postal_code(postal_code: params[:postal_code].to_s)
   end
 
   private

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :forecasts, only: [:new, :create, :show]
+  resources :forecasts, only: [:new, :create, :show], param: :postal_code, constraints: { postal_code: /\d{5}/ }
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
