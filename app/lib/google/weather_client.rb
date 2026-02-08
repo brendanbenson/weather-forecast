@@ -22,7 +22,7 @@ module Google
     # https://developers.google.com/maps/documentation/weather/daily-forecast
     # @param [String] latitude
     # @param [String] longitude
-    # @return [Faraday::Response] A 5-day forecast
+    # @return [Faraday::Response] A 3-day forecast
     def fetch_forecast(latitude:, longitude:)
       connection.get do |req|
         req.url "/v1/forecast/days:lookup", key: @api_key, "location.latitude": latitude, "location.longitude": longitude, days: FORECAST_DAYS

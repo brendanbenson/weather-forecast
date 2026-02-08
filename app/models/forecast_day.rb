@@ -3,5 +3,5 @@ class ForecastDay
 
   attr_accessor :date, :high_temperature, :low_temperature, :conditions
 
-  validates :high_temperature, :low_temperature, :conditions, presence: true
+  validates :date, :high_temperature, :low_temperature, :conditions, presence: true
 end

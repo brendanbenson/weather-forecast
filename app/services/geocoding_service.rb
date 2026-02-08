@@ -25,6 +25,8 @@ class GeocodingService
       raise GeocodingServiceError unless location.valid?
       location
     end
+  rescue Faraday::Error
+    raise GeocodingServiceError
   end
 
   private

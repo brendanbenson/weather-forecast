@@ -25,20 +25,20 @@ class WeatherForecastService
     Rails.cache.exist?(key)
   end
 
+  private
+
   # @param [String] postal_code
   def cache_key(postal_code)
     "weather_forecast/#{postal_code}"
   end
 
-  private
-
   # @param [Location] location
   def fetch_forecast(location:)
-    current_conditions_future = Concurrent::Future.execute { fetch_current_conditions(location: location) }
-    forecast_data_future = Concurrent::Future.execute { fetch_forecast_data(location: location) }
-    current_conditions = current_conditions_future.value
-    forecast_data = forecast_data_future.value
-    forecast_days = forecast_days(forecast_data: forecast_data)
+    current_conditions_future = Concurrent::Future.execute { fetch_current_conditions(location) }
+    forecast_data_future = Concurrent::Future.execute { fetch_forecast_data(location) }
+    current_conditions = current_conditions_future.value!
+    forecast_data = forecast_data_future.value!
+    forecast_days = forecast_days(forecast_data)
     current_temperature = current_conditions.dig("temperature", "degrees")
     forecast = Forecast.new(
       current_temperature: current_temperature,
@@ -48,21 +48,23 @@ class WeatherForecastService
     )
     raise WeatherForecastServiceError unless forecast.valid? && forecast_days.all?(&:valid?)
     forecast
+  rescue Faraday::Error
+    raise WeatherForecastServiceError
   end
 
   # @param [Location] location
-  def fetch_current_conditions(location:)
+  def fetch_current_conditions(location)
     api_response = @client.fetch_current_conditions(latitude: location.latitude, longitude: location.longitude)
     api_response.body.as_json
   end
 
-  def fetch_forecast_data(location:)
+  def fetch_forecast_data(location)
     api_response = @client.fetch_forecast(latitude: location.latitude, longitude: location.longitude)
     api_response.body.as_json
   end
 
-  def forecast_days(forecast_data:)
-    forecast_data["forecastDays"].map do |raw_forecast_day|
+  def forecast_days(forecast_data)
+    forecast_data.dig("forecastDays")&.map do |raw_forecast_day|
       display_date = raw_forecast_day.dig("displayDate")
       ForecastDay.new(
         date: Date.new(display_date["year"], display_date["month"], display_date["day"]),
