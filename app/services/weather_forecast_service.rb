@@ -34,11 +34,10 @@ class WeatherForecastService
 
   # @param [Location] location
   def fetch_forecast(location:)
-    current_conditions = nil
-    forecast_data = nil
-    current_conditions_thread = Thread.new { current_conditions = fetch_current_conditions(location: location) }
-    forecast_data_thread = Thread.new { forecast_data = fetch_forecast_data(location: location) }
-    [current_conditions_thread, forecast_data_thread].each(&:join)
+    current_conditions_future = Concurrent::Future.execute { fetch_current_conditions(location: location) }
+    forecast_data_future = Concurrent::Future.execute { fetch_forecast_data(location: location) }
+    current_conditions = current_conditions_future.value
+    forecast_data = forecast_data_future.value
     forecast_days = forecast_days(forecast_data: forecast_data)
     current_temperature = current_conditions.dig("temperature", "degrees")
     forecast = Forecast.new(
