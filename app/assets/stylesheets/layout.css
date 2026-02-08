@@ -11,6 +11,7 @@ body {
 }
 
 .alert {
+    margin: 1rem;
     border: 1px solid red;
     padding: 1rem;
     color: red;
