@@ -1,0 +1,88 @@
+{
+  "results": [
+    {
+      "address_components": [
+        {
+          "long_name": "Apple Park Way",
+          "short_name": "Apple Park Way",
+          "types": [
+            "route"
+          ]
+        },
+        {
+          "long_name": "Cupertino",
+          "short_name": "Cupertino",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Santa Clara County",
+          "short_name": "Santa Clara County",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "California",
+          "short_name": "CA",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "United States",
+          "short_name": "US",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "95014",
+          "short_name": "95014",
+          "types": [
+            "postal_code"
+          ]
+        }
+      ],
+      "formatted_address": "Apple Park Way, Cupertino, CA 95014, USA",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 37.3359856,
+            "lng": -122.0056004
+          },
+          "southwest": {
+            "lat": 37.327228,
+            "lng": -122.0144832
+          }
+        },
+        "location": {
+          "lat": 37.332206,
+          "lng": -122.0110271
+        },
+        "location_type": "GEOMETRIC_CENTER",
+        "viewport": {
+          "northeast": {
+            "lat": 37.3359856,
+            "lng": -122.0056004
+          },
+          "southwest": {
+            "lat": 37.327228,
+            "lng": -122.0144832
+          }
+        }
+      },
+      "partial_match": true,
+      "place_id": "ChIJTZmAhJC1j4ARbyia3aT-W-c",
+      "types": [
+        "route"
+      ]
+    }
+  ],
+  "status": "OK"
+}

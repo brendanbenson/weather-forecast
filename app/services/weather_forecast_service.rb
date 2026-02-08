@@ -38,7 +38,7 @@ class WeatherForecastService
     forecast_data = nil
     current_conditions_thread = Thread.new { current_conditions = fetch_current_conditions(location: location) }
     forecast_data_thread = Thread.new { forecast_data = fetch_forecast_data(location: location) }
-    [ current_conditions_thread, forecast_data_thread ].each(&:join)
+    [current_conditions_thread, forecast_data_thread].each(&:join)
     forecast_days = forecast_days(forecast_data: forecast_data)
     current_temperature = current_conditions.dig("temperature", "degrees")
     forecast = Forecast.new(
