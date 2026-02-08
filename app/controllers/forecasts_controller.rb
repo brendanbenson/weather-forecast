@@ -1,7 +1,4 @@
 class ForecastsController < ApplicationController
-  rescue_from GeocodingService::GeocodingServiceError,
-              WeatherForecastService::WeatherForecastServiceError, with: :not_found
-
   # GET /forecasts/new
   def new
     @address_form = AddressForm.new
@@ -26,6 +23,8 @@ class ForecastsController < ApplicationController
 
   def show
     @forecast = FetchForecast.new.fetch_by_postal_code(postal_code: params[:postal_code].to_s)
+  rescue GeocodingService::GeocodingServiceError, WeatherForecastService::WeatherForecastServiceError
+    not_found
   end
 
   private
