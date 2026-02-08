@@ -2,6 +2,14 @@
   <dl>
     <dt>Current temperature</dt>
     <dd><%= display_fahrenheit(@forecast.current_temperature) %></dd>
+    <% @forecast.forecast_days.each do |day| %>
+      <dt><%= day.date.strftime("%A") %></dt>
+      <dd>
+        <%= day.conditions %>
+        High: <%= display_fahrenheit(day.high_temperature) %>
+        Low: <%= display_fahrenheit(day.low_temperature) %>
+      </dd>
+    <% end %>
     <dt>Last updated</dt>
     <dd><%= time_ago_in_words(@forecast.created_at) %> ago</dd>
     <dt>Cached</dt>
