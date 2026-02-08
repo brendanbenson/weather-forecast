@@ -21,6 +21,7 @@ module Google
     def connection
       @connection ||= Faraday.new(url: @base_url) do |f|
         f.response :logger, Rails.logger, bodies: true if Rails.env.development?
+        f.response :raise_error
         f.response :json
       end
     end
