@@ -1,3 +1,10 @@
-<div id="<%= dom_id forecast %>">
-  Current temperature: <%= @forecast.current_temperature %>
+<div class="forecast" id="<%= dom_id forecast %>">
+  <dl>
+    <dt>Current temperature</dt>
+    <dd><%= display_fahrenheit(@forecast.current_temperature) %></dd>
+    <dt>Last updated</dt>
+    <dd><%= time_ago_in_words(@forecast.created_at) %> ago</dd>
+    <dt>Cached</dt>
+    <dd><%= yes_no(@forecast.cached) %></dd>
+  </dl>
 </div>

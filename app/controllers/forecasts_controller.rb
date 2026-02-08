@@ -1,4 +1,7 @@
 class ForecastsController < ApplicationController
+  rescue_from GeocodingService::GeocodingServiceError,
+              WeatherForecastService::WeatherForecastServiceError, with: :not_found
+
   # GET /forecasts/new
   def new
     @address_form = AddressForm.new
@@ -7,19 +10,22 @@ class ForecastsController < ApplicationController
   # POST /forecasts
   def create
     @address_form = AddressForm.new(address_params)
-
-    unless @address_form.valid?
-      render :new, status: :unprocessable_entity and return
+    if @address_form.valid?
+      forecast = FetchForecast.new.fetch_by_address(address: @address_form.address)
+      redirect_to forecast_path(forecast.id)
+    else
+      render :new, status: :unprocessable_entity
     end
-
-    geocoding_service = GeocodingService.new(@address_form.address)
-    redirect_to zip_code_forecast_path(geocoding_service.zip_code)
+  rescue GeocodingService::GeocodingServiceError
+    flash.now[:alert] = "There was an error finding your address. Please try again."
+    render :new, status: :unprocessable_entity
+  rescue WeatherForecastService::WeatherForecastServiceError
+    flash.now[:alert] = "There was an error checking the weather for your location. Please try again."
+    render :new, status: :unprocessable_entity
   end
 
   def show
-    zip_code = params[:zip_code_id].to_s
-    forecast_service = ForecastService.new(zip_code)
-    @forecast = forecast_service.forecast
+    @forecast = FetchForecast.new.fetch_by_postal_code(postal_code: params[:id].to_s)
   end
 
   private

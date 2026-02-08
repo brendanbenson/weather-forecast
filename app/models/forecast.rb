@@ -1,12 +1,9 @@
 class Forecast
   include ActiveModel::API
-  def current_temperature
-    38
-  end
 
-  def zip_code
-    "81435"
-  end
+  attr_accessor :current_temperature, :created_at, :postal_code, :cached
 
-  alias :id :zip_code
+  validates :current_temperature, presence: true
+
+  alias :id :postal_code
 end
