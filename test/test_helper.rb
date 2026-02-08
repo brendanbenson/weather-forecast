@@ -4,7 +4,7 @@ require "rails/test_help"
 require "minitest/mock"
 require "webmock/minitest"
 
-WebMock.disable_net_connect!
+WebMock.disable_net_connect!(allow_localhost: true)
 
 module ActiveSupport
   class TestCase

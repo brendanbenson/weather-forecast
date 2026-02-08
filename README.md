@@ -8,6 +8,7 @@ and longitude coordinates, and then fetches weather data from the
 Run the application: `bin/dev`
 
 Run the tests: `bin/rails test`
+Run the system test: `bin/rails test:system`
 
 ## Routing
 
@@ -32,14 +33,14 @@ The system parallelizes the calls to get the current conditions and the forecast
 
 ## Testing
 
-Tests are minimal for this application, mainly because I was limited on time. There are controller tests, but a true
-testing suite would include unit tests for the services, domain objects, and API clients, as well as browser integration
-tests. Webmock ensures the tests do not make network calls.
+Tests are minimal for this application, mainly because I was limited on time. There are controller tests, and a system
+test, but a true testing suite would include unit tests for the services, domain objects, and API clients. Webmock
+ensures the tests do not make network calls.
 
 ## Future Considerations
 
 This app currently does not support i18n, nor non-USA locations. Address lookups are cached for one week, but a
 more-robust caching strategy could be warranted, since addresses and their coordinates are (generally) immutable.
 
-Furthermore, I've implemented basic Geocoding and Weather clients. For a more robust implemenation, I'd generate a
+Furthermore, I've implemented basic Geocoding and Weather clients. For a more robust implementation, I'd generate a
 client/types from the OpenAPI spec.
