@@ -14,10 +14,12 @@ class GeocodingService
   def location(address:)
     Rails.cache.fetch(cache_key(address), expires_in: 1.week) do
       result_loc = result_location(address: address)
+      country = country(address: address)
       location = Location.new(
         latitude: result_loc.fetch("lat"),
         longitude: result_loc.fetch("lng"),
-        postal_code: postal_code(address: address)
+        postal_code: postal_code(address: address),
+        country: country
       )
       raise GeocodingServiceError unless location.valid?
       location
@@ -39,6 +41,13 @@ class GeocodingService
   def postal_code(address:)
     geocoded_address(address: address).dig("results", 0, "address_components")
       &.find { |component| component["types"].include?("postal_code") }&.dig("long_name")
+  end
+
+  # @param [String] address
+  # @return [String]
+  def country(address:)
+    geocoded_address(address: address).dig("results", 0, "address_components")
+      &.find { |component| component["types"].include?("country") }&.dig("short_name")
   end
 
   # @param [String] address
