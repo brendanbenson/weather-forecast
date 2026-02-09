@@ -28,4 +28,34 @@ class ForecastsTest < ApplicationSystemTestCase
       assert_text "Weather Forecast"
     end
   end
+
+  test "handles errors and failures" do
+    with_caching do
+      stub_unsuccessful_geocode(address: "One Apple Park Way, Cupertino, CA 95014")
+
+      visit root_url
+
+      fill_in "Enter an address", with: ""
+
+      click_on "Get Forecast"
+
+      assert_text "Address can't be blank"
+
+      fill_in "Enter an address", with: "One Apple Park Way, Cupertino, CA 95014"
+
+      click_on "Get Forecast"
+
+      assert_text "There was an error finding your address. Please try again."
+
+      stub_successful_geocode(address: "Two Apple Park Way, Cupertino, CA 95014")
+      stub_unsuccessful_forecast(latitude: 37.332206, longitude: -122.0110271)
+      stub_unsuccessful_current_conditions(latitude: 37.332206, longitude: -122.0110271)
+
+      fill_in "Enter an address", with: "Two Apple Park Way, Cupertino, CA 95014"
+
+      click_on "Get Forecast"
+
+      assert_text "There was an error checking the weather for your location. Please try again."
+    end
+  end
 end
