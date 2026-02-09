@@ -3,6 +3,6 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   def not_found
-    raise ActionController::RoutingError.new('Not Found')
+    raise ActionController::RoutingError.new("Not Found")
   end
 end

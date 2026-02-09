@@ -6,5 +6,5 @@ class Location
   validates :postal_code, presence: true, length: { is: 5 }
   validates :latitude, presence: true
   validates :longitude, presence: true
-  validates :country, presence: true, inclusion: { in: ["US"] }
+  validates :country, presence: true, inclusion: { in: [ "US" ] }
 end

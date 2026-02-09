@@ -20,10 +20,10 @@ class FetchForecastTest < ActiveSupport::TestCase
       ]
     )
     mock_geocoding_service = Minitest::Mock.new
-    mock_geocoding_service.expect(:location, fake_location, ["One Apple Park Way, Cupertino, CA 95014"])
+    mock_geocoding_service.expect(:location, fake_location, [ "One Apple Park Way, Cupertino, CA 95014" ])
 
     mock_weather_forecast_service = Minitest::Mock.new
-    mock_weather_forecast_service.expect(:forecast, fake_forecast, [fake_location])
+    mock_weather_forecast_service.expect(:forecast, fake_forecast, [ fake_location ])
 
     fetch_forecast = FetchForecast.new(
       geocoding_service: mock_geocoding_service,
