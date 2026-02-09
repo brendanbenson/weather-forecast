@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
-  resources :forecasts, only: [:new, :create]
+  resources :forecasts, only: [ :new, :create, :show ], param: :postal_code, constraints: { postal_code: /\d{5}/ }
 
-  resources :zip_codes, only: [] do
-    resource :forecast
-  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

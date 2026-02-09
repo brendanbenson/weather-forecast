@@ -1,1 +1,5 @@
-<h1>Forecast for <%= params[:zip_code_id] %></h1>
+<h1>Forecast for <%= @forecast.postal_code %></h1>
+
+<%= render 'forecast', forecast: @forecast %>
+
+<%= link_to "Check another location", root_path %>
