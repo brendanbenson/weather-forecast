@@ -34,10 +34,21 @@ class ForecastsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "There was an error finding your address. Please try again.", flash[:alert]
   end
 
-  test "POST /forecasts shows errors on unsuccessful forecast" do
+  test "POST /forecasts shows errors on unsuccessful current conditions" do
     stub_successful_geocode(address: "95014")
     stub_unsuccessful_current_conditions(latitude: 37.332206, longitude: -122.0110271)
     stub_successful_forecast(latitude: 37.332206, longitude: -122.0110271)
+
+    post forecasts_path, params: { address_form: { address: "95014" } }
+
+    assert_response :unprocessable_entity
+    assert_equal "There was an error checking the weather for your location. Please try again.", flash[:alert]
+  end
+
+  test "POST /forecasts shows errors on unsuccessful forecast" do
+    stub_successful_geocode(address: "95014")
+    stub_successful_current_conditions(latitude: 37.332206, longitude: -122.0110271)
+    stub_unsuccessful_forecast(latitude: 37.332206, longitude: -122.0110271)
 
     post forecasts_path, params: { address_form: { address: "95014" } }
 
@@ -63,10 +74,20 @@ class ForecastsControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
-  test "GET /forecasts/:postal_code renders 404 when forecast fails" do
+  test "GET /forecasts/:postal_code renders 404 when current conditions fails" do
     stub_successful_geocode(address: "95014")
     stub_unsuccessful_current_conditions(latitude: 37.332206, longitude: -122.0110271)
     stub_successful_forecast(latitude: 37.332206, longitude: -122.0110271)
+
+    get forecast_url("95014")
+
+    assert_response :not_found
+  end
+
+  test "GET /forecasts/:postal_code renders 404 when forecast fails" do
+    stub_successful_geocode(address: "95014")
+    stub_successful_current_conditions(latitude: 37.332206, longitude: -122.0110271)
+    stub_unsuccessful_forecast(latitude: 37.332206, longitude: -122.0110271)
 
     get forecast_url("95014")
 

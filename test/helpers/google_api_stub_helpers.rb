@@ -43,4 +43,10 @@ module GoogleApiStubHelpers
         headers: { "Content-Type" => "application/json" }
       )
   end
+
+  def stub_unsuccessful_forecast(latitude:, longitude:)
+    stub_request(:get, "https://weather.googleapis.com/v1/forecast/days:lookup")
+      .with(query: hash_including({ "location.latitude" => latitude.to_s, "location.longitude" => longitude.to_s, "days" => "3" }))
+      .to_return(status: 404)
+  end
 end
