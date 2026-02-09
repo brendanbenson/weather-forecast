@@ -5,9 +5,12 @@ This is a Rails application that provides weather forecasts for locations in the
 and longitude coordinates, and then fetches weather data from the
 [Google Weather API](https://developers.google.com/maps/documentation/weather).
 
+![weather-forecast](https://github.com/user-attachments/assets/4ef74bd2-3ef1-467c-ae36-7eda12281f06)
+
 Run the application: `bin/dev`
 
 Run the tests: `bin/rails test`
+
 Run the system test: `bin/rails test:system`
 
 ## Routing
