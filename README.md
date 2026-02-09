@@ -33,9 +33,11 @@ The system parallelizes the calls to get the current conditions and the forecast
 
 ## Testing
 
-Tests are minimal for this application, mainly because I was limited on time. There are controller tests, and a system
-test, but a true testing suite would include unit tests for the services, domain objects, and API clients. Webmock
-ensures the tests do not make network calls.
+Tests are minimal for this application, mainly because I was limited on time. There are controller tests, and two system
+tests, but a true testing suite would include unit tests for the services, domain objects, and API clients. I included a
+basic happy-path test for FetchForecast so you can see how it works with the constructor dependency injection. 
+
+Webmock ensures the tests do not make network calls.
 
 ## Future Considerations
 
