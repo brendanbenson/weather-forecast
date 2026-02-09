@@ -31,6 +31,7 @@ class ForecastsControllerTest < ActionDispatch::IntegrationTest
     post forecasts_path, params: { address_form: { address: "00000" } }
 
     assert_response :unprocessable_entity
+    assert_equal "There was an error finding your address. Please try again.", flash[:alert]
   end
 
   test "POST /forecasts shows errors on unsuccessful forecast" do
@@ -41,6 +42,7 @@ class ForecastsControllerTest < ActionDispatch::IntegrationTest
     post forecasts_path, params: { address_form: { address: "95014" } }
 
     assert_response :unprocessable_entity
+    assert_equal "There was an error checking the weather for your location. Please try again.", flash[:alert]
   end
 
   test "GET /forecasts/:postal_code shows forecast" do

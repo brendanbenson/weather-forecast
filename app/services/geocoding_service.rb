@@ -11,9 +11,9 @@ class GeocodingService
 
   # @return [Location]
   # @param [String] address The address to be geocoded
-  def location(address:)
+  def location(address)
     Rails.cache.fetch(cache_key(address), expires_in: 1.week) do
-      geocode_result = @client.geocode_address(address: address).body.as_json
+      geocode_result = @client.geocode_address(address).body.as_json
       result_loc = result_location(geocode_result)
       country = country(geocode_result)
       location = Location.new(
@@ -40,14 +40,14 @@ class GeocodingService
   end
 
   # @param [Hash] geocode_result
-  # @return [String]
+  # @return [String, nil]
   def postal_code(geocode_result)
     geocode_result.dig("results", 0, "address_components")
       &.find { |component| component["types"].include?("postal_code") }&.dig("long_name")
   end
 
   # @param [Hash] geocode_result
-  # @return [String]
+  # @return [String, nil]
   def country(geocode_result)
     geocode_result.dig("results", 0, "address_components")
       &.find { |component| component["types"].include?("country") }&.dig("short_name")

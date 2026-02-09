@@ -11,19 +11,15 @@ class FetchForecast
 
   # @param [String] address
   # @return [Forecast]
-  def fetch_by_address(address:)
-    location = @geocoding_service.location(address: address)
-    @weather_forecast_service.forecast(location: location)
+  def fetch_by_address(address)
+    location = @geocoding_service.location(address)
+    @weather_forecast_service.forecast(location)
   end
 
   # @param [String] postal_code
   # @return [Forecast]
-  def fetch_by_postal_code(postal_code:)
-    location = if @weather_forecast_service.forecast_exists?(postal_code: postal_code)
-                 Location.new(postal_code: postal_code)
-               else
-                 @geocoding_service.location(address: postal_code)
-               end
-    @weather_forecast_service.forecast(location: location)
+  def fetch_by_postal_code(postal_code)
+    cached_forecast = @weather_forecast_service.cached_forecast(postal_code)
+    cached_forecast.presence || fetch_by_address(postal_code)
   end
 end

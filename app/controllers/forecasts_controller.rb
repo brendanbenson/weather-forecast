@@ -8,8 +8,8 @@ class ForecastsController < ApplicationController
   def create
     @address_form = AddressForm.new(address_params)
     if @address_form.valid?
-      forecast = FetchForecast.new.fetch_by_address(address: @address_form.address)
-      redirect_to forecast_path(forecast.id)
+      forecast = FetchForecast.new.fetch_by_address(@address_form.address)
+      redirect_to forecast_path(forecast.postal_code)
     else
       render :new, status: :unprocessable_entity
     end
@@ -22,7 +22,7 @@ class ForecastsController < ApplicationController
   end
 
   def show
-    @forecast = FetchForecast.new.fetch_by_postal_code(postal_code: params[:postal_code].to_s)
+    @forecast = FetchForecast.new.fetch_by_postal_code(params[:postal_code].to_s)
   rescue GeocodingService::GeocodingServiceError, WeatherForecastService::WeatherForecastServiceError
     not_found
   end

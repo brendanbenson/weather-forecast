@@ -11,18 +11,23 @@ class WeatherForecastService
 
   # @param [Location] location
   # @return [Forecast]
-  def forecast(location:)
+  def forecast(location)
     key = cache_key(location.postal_code)
-    forecast_is_cached = forecast_exists?(postal_code: location.postal_code)
-    forecast = Rails.cache.fetch(key, expires_in: 30.minutes) { fetch_forecast(location: location) }
-    forecast.cached = forecast_is_cached
+    cached = true
+    forecast = Rails.cache.fetch(key, expires_in: 30.minutes) do
+      cached = false
+      fetch_forecast(location: location)
+    end
+    forecast.cached = cached
     forecast
   end
 
   # @param [String] postal_code
-  def forecast_exists?(postal_code:)
-    key = cache_key(postal_code)
-    Rails.cache.exist?(key)
+  def cached_forecast(postal_code)
+    forecast = Rails.cache.read(cache_key(postal_code))
+    return nil unless forecast
+    forecast.cached = true
+    forecast
   end
 
   private

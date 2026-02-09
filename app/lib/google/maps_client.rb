@@ -10,7 +10,7 @@ module Google
     # https://developers.google.com/maps/documentation/geocoding/start#geocoding-request-and-response-latitudelongitude-lookup
     # @param [String] address
     # @return [Faraday::Response]
-    def geocode_address(address:)
+    def geocode_address(address)
       connection.get do |req|
         req.url "/maps/api/geocode/json", address: address, key: @api_key
       end
