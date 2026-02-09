@@ -78,6 +78,9 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
+          GEOCODING_API_URL: https://maps.googleapis.com
+          WEATHER_API_URL: https://weather.googleapis.com
+          GOOGLE_API_KEY: fake_google_api_key
           # REDIS_URL: redis://localhost:6379/0
         run: bin/rails db:test:prepare test test:system
 
